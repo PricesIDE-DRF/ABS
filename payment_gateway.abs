@@ -1,0 +1,90 @@
+module PaymentGateway;
+
+// Core interfaces
+interface PaymentProcessor {
+    Unit processPayment(String paymentDetails);
+}
+
+interface CurrencySupport {
+    Unit convertCurrency(String fromCurrency, String toCurrency, Int amount);
+}
+
+interface FraudDetector {
+    Bool detectFraud(String transactionDetails);
+}
+
+interface BankIntegration {
+    Unit integrateWithBank(String bankName, String country);
+}
+
+// Implementations of the interfaces
+class SomePaymentProcessorImplementation() implements PaymentProcessor {
+    Unit processPayment(String paymentDetails) {
+        // Implementation logic here
+        println("Processing payment: " + paymentDetails);
+    }
+}
+
+class SomeCurrencySupportImplementation() implements CurrencySupport {
+    Unit convertCurrency(String fromCurrency, String toCurrency, Int amount) {
+        // Convert the Int amount to a String before concatenating
+        String amountStr = intToString(amount);
+        println("Converting " + amountStr + " from " + fromCurrency + " to " + toCurrency);
+    }
+}
+
+
+class SomeFraudDetectorImplementation() implements FraudDetector {
+    Bool detectFraud(String transactionDetails) {
+        // Implementation logic here
+        println("Detecting fraud for transaction: " + transactionDetails);
+        return False; // Example return value
+    }
+}
+
+class SomeBankIntegrationImplementation() implements BankIntegration {
+    Unit integrateWithBank(String bankName, String country) {
+        // Implementation logic here
+        println("Integrating with bank: " + bankName + " in " + country);
+    }
+}
+
+// Interface for Payment Gateway
+interface MarketplacePaymentGateway extends PaymentProcessor, CurrencySupport, FraudDetector, BankIntegration {}
+
+// Implementation of the interface
+class MarketplacePaymentGatewayImpl(PaymentProcessor pp, CurrencySupport cs, FraudDetector fd, BankIntegration bi)
+    implements MarketplacePaymentGateway {
+    
+    Unit processPayment(String paymentDetails) {
+        pp.processPayment(paymentDetails);
+    }
+
+    Unit convertCurrency(String fromCurrency, String toCurrency, Int amount) {
+        cs.convertCurrency(fromCurrency, toCurrency, amount);
+    }
+
+    Bool detectFraud(String transactionDetails) {
+        return fd.detectFraud(transactionDetails);
+    }
+
+    Unit integrateWithBank(String bankName, String country) {
+        bi.integrateWithBank(bankName, country);
+    }
+}
+
+// Main block to demonstrate usage
+{
+    PaymentProcessor pp = new SomePaymentProcessorImplementation();
+    CurrencySupport cs = new SomeCurrencySupportImplementation();
+    FraudDetector fd = new SomeFraudDetectorImplementation();
+    BankIntegration bi = new SomeBankIntegrationImplementation();
+
+    MarketplacePaymentGateway marketplace = new MarketplacePaymentGatewayImpl(pp, cs, fd, bi);
+
+    // Usage examples
+    marketplace.processPayment("Marketplace payment details");
+    marketplace.convertCurrency("AUD", "CAD", 300);
+    marketplace.detectFraud("Potential fraud transaction");
+    marketplace.integrateWithBank("Local Bank", "Indonesia");
+}

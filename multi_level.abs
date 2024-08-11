@@ -1,0 +1,115 @@
+module PaymentGateway;
+
+// Core interfaces
+interface PaymentProcessor {
+    Unit processPayment(String paymentDetails);
+}
+
+interface CurrencySupport {
+    Unit convertCurrency(String fromCurrency, String toCurrency, Int amount);
+}
+
+interface FraudDetector {
+    Bool detectFraud(String transactionDetails);
+}
+
+interface BankIntegration {
+    Unit integrateWithBank(String bankName, String country);
+}
+
+// Basic implementation of MarketplacePaymentGateway
+class BasicMarketplacePaymentGateway implements PaymentProcessor, CurrencySupport, FraudDetector, BankIntegration {
+    Unit processPayment(String paymentDetails) {
+        println("Basic payment processing: " + paymentDetails);
+    }
+
+    Unit convertCurrency(String fromCurrency, String toCurrency, Int amount) {
+        println("Basic currency conversion from " + fromCurrency + " to " + toCurrency);
+    }
+
+    Bool detectFraud(String transactionDetails) {
+        println("Basic fraud detection for: " + transactionDetails);
+        return False;
+    }
+
+    Unit integrateWithBank(String bankName, String country) {
+        println("Basic bank integration with " + bankName + " in " + country);
+    }
+}
+
+// Delta modules for payment vendors
+delta Oy;
+uses PaymentGateway;
+modifies class BasicMarketplacePaymentGateway {
+    modifies Unit processPayment(String paymentDetails) {
+        println("Oy payment processing: " + paymentDetails);
+    }
+}
+
+delta Midtrans;
+uses PaymentGateway;
+modifies class BasicMarketplacePaymentGateway {
+    modifies Unit processPayment(String paymentDetails) {
+        println("Midtrans payment processing: " + paymentDetails);
+    }
+}
+
+delta Flip;
+uses PaymentGateway;
+modifies class BasicMarketplacePaymentGateway {
+    modifies Unit processPayment(String paymentDetails) {
+        println("Flip payment processing: " + paymentDetails);
+    }
+}
+
+// Delta modules for e-wallets
+delta Gopay;
+uses PaymentGateway;
+adds class GopayWallet {
+    Unit processGopayPayment(String paymentDetails) {
+        println("Processing Gopay payment: " + paymentDetails);
+    }
+}
+modifies class BasicMarketplacePaymentGateway {
+    adds Unit processGopayPayment(String paymentDetails) {
+        GopayWallet wallet = new GopayWallet();
+        wallet.processGopayPayment(paymentDetails);
+    }
+}
+
+delta Ovo;
+uses PaymentGateway;
+adds class OvoWallet {
+    Unit processOvoPayment(String paymentDetails) {
+        println("Processing OVO payment: " + paymentDetails);
+    }
+}
+modifies class BasicMarketplacePaymentGateway {
+    adds Unit processOvoPayment(String paymentDetails) {
+        OvoWallet wallet = new OvoWallet();
+        wallet.processOvoPayment(paymentDetails);
+    }
+}
+
+// Product line configuration
+productline PaymentGatewayPL;
+features Oy, Midtrans, Flip, Gopay, Ovo;
+
+delta Oy when Oy;
+delta Midtrans when Midtrans;
+delta Flip when Flip;
+delta Gopay when Gopay;
+delta Ovo when Ovo;
+
+// Product configurations
+product PaymentGatewayWithOy = {Oy};
+product PaymentGatewayWithMidtrans = {Midtrans};
+product PaymentGatewayWithFlip = {Flip};
+product PaymentGatewayWithGopay = {Midtrans, Gopay};
+product PaymentGatewayWithOvo = {Ovo};
+
+uses PaymentGateway;
+main() {
+    BasicMarketplacePaymentGateway gateway = new BasicMarketplacePaymentGateway();
+    gateway.processOvoPayment("OVO payment details");
+}

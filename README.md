@@ -16,10 +16,10 @@ This repository showcased the study case for using ABS in context of Delta orien
 - Run this command
   `java -jar "path/to/absfrontend.jar" "path/to/[file_name].abs"`
 
-## Summary of The Abstract Behavioral Specification Language: A Tutorial Introduction
+# Summary of The Abstract Behavioral Specification Language: A Tutorial Introduction
 ABS (Abstract Behavioral Specification) menargetkan sistem perangkat lunak yang bersifat concurrent, distributed, object-oriented, berbasis komponen, dan highly reusable. ABS mengintegrasikan feature models sebagai first-class language concept untuk mendukung product line engineering (PLE). Sebagai bahasa abstrak, ABS cocok untuk memodelkan perangkat lunak yang akan digunakan di lingkungan virtual. ABS menggunakan konsep deployment components untuk merepresentasikan konsep low-level seperti system time, memory, latency, atau scheduling pada level model abstrak. ABS bukan hanya notasi pemodelan, tetapi juga dilengkapi dengan tool set terintegrasi untuk mengotomatisasi proses rekayasa perangkat lunak dengan fokus utama menjamin _predictability of results_, _interoperability_, _usability_. ABS sepenuhnya dapat dijalankan (meskipun dengan cara yang tidak deterministik) dan mendukung pembuatan kode ke Java, Scala, dan Maude. Selain itu, memungkinkan untuk mempelajari model ABS dari perilaku yang diamati. 
 
-### Arsitektur ABS
+## Arsitektur ABS
 Arsitektur ABS diorganisir dalam tumpukan layer yang jelas terpisah. Desain ABS bertujuan untuk:
 1. Bahasa yang menarik dan mudah dipelajari dengan sintaks yang familiar
 2. Pemisahan maksimal antar konsep yang berbeda (orthogonality)
@@ -42,7 +42,7 @@ Fitur utama ABS:
 
 ABS dirancang untuk mudah digunakan dan fleksibel, meskipun mencakup berbagai konsep bahasa yang kompleks. Tujuannya adalah untuk mendukung seluruh proses pemodelan dari analisis fitur, pemetaan deployment, desain tingkat tinggi, hingga masalah implementasi.
 
-### Product Line Engineering dengan ABS
+## Product Line Engineering dengan ABS
 Salah satu tujuan dari ABS adalah untuk menyediakan framework formal dan seragam untuk PLE. Fase dalam PLE dapat terbagi menjadi dua, yaitu: 
 1. Family engineering: Mengidentifikasi _commonality_ antar produk dan merencanakan _variability_.
 2. Application engineering: Membangun produk individual dengan memilih fitur dan mengkombinasikan artefak.
@@ -54,7 +54,7 @@ Secara singkat elemen ABS untuk pemodelan product line:
 3. Configuration language yang menghubungkan fitur dengan delta (bisa juga disebut product line configuration)
 4. Bahasa untuk konfigurasi produk
 
-## Feature Description
+### Feature Description
 Dalam ABS, digunakan sedikit modifikasi dari bahasa variabilitas tekstual (TVL), yang memiliki keuntungan berupa semantik formal dan representasi tekstual. Varian bahasa yang digunakan dalam ABS disebut μTVL dan berbeda dari TVL dalam dua hal: 
 1. Tipe atribut yang tidak diperlukan dihilangkan
 2. Adanya kemungkinan untuk memiliki beberapa fitur root, berguna untuk memodelkan variabilitas ortogonal dalam garis produk
@@ -75,7 +75,7 @@ root Account {
 }
 ```
 
-## Delta Modelling
+### Delta Modelling
 Realisasi fitur menggunakan delta modules (deltas), varian dari delta-oriented programming (DOP). Dengan menggunakan delta modules ini, kita dapat memisahkan pemodelan data dan variabilitas, dan memiliki basis yang baik untuk spesifikasi dan verifikasi modular perangkat lunak kaya fitur. 
 Prinsip delta modeling pada ABS sama dengan berbagai bahasa modelling lainnya, yaitu:
 1. Dimulai dengan core/base product dengan fungsionalitas minimal
